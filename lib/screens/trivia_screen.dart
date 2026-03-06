@@ -30,6 +30,14 @@ class _TriviaScreenState extends State<TriviaScreen> {
   List<Question> selectedQuestions = [];
   List<Answer> currentAnswers = [];
 
+  // colores de los botones de respuesta
+  List<Color> answerColors = [
+    Color(0xFFB8E6D5),
+    Color(0xFFC8E6C9),
+    Color(0xFFB7C7EB),
+    Color(0xFFE1BEE7),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -225,10 +233,12 @@ class _TriviaScreenState extends State<TriviaScreen> {
                       itemBuilder: (context, index) {
                         return AnswerButton(
                           text: "respuesta", //TODO: agregar respuestas,
-                          baseColor: Colors.white,
+                          baseColor: answerColors[index],
                           isCorrect: false,
                           hasAnswered: hasAnswered,
-                          onTap: () {},
+                          onTap: () {
+                            // TODO: agregar funcion de checar respuesta
+                          },
                         );
                       },
                     ),
