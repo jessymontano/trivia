@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:trivia/data/questions.dart';
 import 'package:trivia/models/question.dart';
 import 'package:trivia/widgets/answer_button.dart';
 import 'package:trivia/widgets/progress_bar.dart';
 import 'package:trivia/widgets/timer.dart';
+import 'package:trivia/screens/results_screen.dart';
 
 class TriviaScreen extends StatefulWidget {
   const TriviaScreen({super.key});
@@ -20,6 +22,7 @@ class _TriviaScreenState extends State<TriviaScreen> {
   int wrongAnswersCount = 0;
   int correctAnswersCount = 0;
   int currentQuestionIndex = 0;
+  int? selectedAnswerIndex;
 
   // temporizador
   Timer? _timer;
@@ -41,6 +44,8 @@ class _TriviaScreenState extends State<TriviaScreen> {
   @override
   void initState() {
     super.initState();
+    selectedQuestions = questions;
+    loadQuestion();
     startTimer();
   }
 
@@ -65,6 +70,10 @@ class _TriviaScreenState extends State<TriviaScreen> {
         }
       });
     });
+  }
+
+  void loadQuestion() {
+    currentAnswers = selectedQuestions[currentQuestionIndex].answers;
   }
 
   void handleTimeout() {
@@ -175,7 +184,7 @@ class _TriviaScreenState extends State<TriviaScreen> {
                   // barra de progreso
                   ProgressBar(
                     currentQuestionIndex: currentQuestionIndex + 1,
-                    totalQuestions: 10,
+                    totalQuestions: selectedQuestions.length,
                   ),
                   const SizedBox(height: 100),
 
@@ -203,7 +212,8 @@ class _TriviaScreenState extends State<TriviaScreen> {
                       child: Center(
                         child: SingleChildScrollView(
                           child: Text(
-                            "pregunta", //TODO: agregar pregunta
+                            selectedQuestions[currentQuestionIndex]
+                                .question, //TODO: agregar pregunta
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 20,
@@ -232,12 +242,25 @@ class _TriviaScreenState extends State<TriviaScreen> {
                       itemCount: 4,
                       itemBuilder: (context, index) {
                         return AnswerButton(
-                          text: "respuesta", //TODO: agregar respuestas,
+                          text: currentAnswers[index]
+                              .text, //TODO: agregar respuestas,
                           baseColor: answerColors[index],
-                          isCorrect: false,
+                          isCorrect: currentAnswers[index].isCorrect,
                           hasAnswered: hasAnswered,
+                          isSelected: selectedAnswerIndex == index,
                           onTap: () {
-                            // TODO: agregar funcion de checar respuesta
+                            if (hasAnswered) return;
+                            setState(() {
+                              hasAnswered = true;
+                              selectedAnswerIndex = index;
+                              if (currentAnswers[index].isCorrect) {
+                                correctAnswersCount++;
+                              } else {
+                                wrongAnswersCount++;
+                              }
+                            });
+
+                            _timer?.cancel();
                           },
                         );
                       },
@@ -256,7 +279,30 @@ class _TriviaScreenState extends State<TriviaScreen> {
                         ),
                         shadowColor: Colors.black.withOpacity(0.1),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (currentQuestionIndex <
+                            selectedQuestions.length - 1) {
+                          setState(() {
+                            currentQuestionIndex++;
+                            hasAnswered = false;
+                            selectedAnswerIndex = null;
+                          });
+
+                          loadQuestion();
+                          startTimer();
+                        } else {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ResultScreen(
+                                correct: correctAnswersCount,
+                                wrong: wrongAnswersCount,
+                                total: selectedQuestions.length,
+                              ),
+                            ),
+                          );
+                        }
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

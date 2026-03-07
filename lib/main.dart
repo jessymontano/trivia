@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trivia/screens/trivia_screen.dart';
+import 'package:trivia/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +16,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: TriviaScreen());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Initialsplash(),
+    );
   }
 }
