@@ -7,6 +7,7 @@ import 'package:trivia/widgets/answer_button.dart';
 import 'package:trivia/widgets/progress_bar.dart';
 import 'package:trivia/widgets/timer.dart';
 import 'package:trivia/screens/results_screen.dart';
+import 'package:trivia/widgets/background_overlay.dart';
 
 class TriviaScreen extends StatefulWidget {
   const TriviaScreen({super.key});
@@ -33,6 +34,19 @@ class _TriviaScreenState extends State<TriviaScreen> {
   List<Question> selectedQuestions = [];
   List<Answer> currentAnswers = [];
 
+  final List<String> backgrounds = [
+    "assets/images/bg1.png",
+    "assets/images/bg2.png",
+    "assets/images/bg3.png",
+    "assets/images/bg4.png",
+    "assets/images/bg5.png",
+    "assets/images/bg6.png",
+    "assets/images/bg7.png",
+    "assets/images/bg8.png",
+    "assets/images/bg9.png",
+    "assets/images/bg10.png",
+  ];
+
   // colores de los botones de respuesta
   List<Color> answerColors = [
     Color(0xFFB8E6D5),
@@ -53,6 +67,18 @@ class _TriviaScreenState extends State<TriviaScreen> {
   void dispose() {
     _timer?.cancel();
     super.dispose();
+  }
+
+  Color getOverlayColor() {
+    if (timeLeft <= 3) {
+      return Colors.red.withValues(alpha: 0.35);
+    }
+
+    if (timeLeft <= 6) {
+      return Colors.yellow.withValues(alpha: 0.25);
+    }
+
+    return Colors.transparent;
   }
 
   // temporizador
@@ -85,33 +111,37 @@ class _TriviaScreenState extends State<TriviaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return
-    // contenido
-    Scaffold(
+    return Scaffold(
+      // contenido
       body: Stack(
         children: [
           // fondo degradado
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xB27B9FD3),
-                    Color(0xA59BB7D9),
-                    Color(0xB2B5CAE0),
-                  ],
-                ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF003DA5).withValues(alpha: 0.9),
+                  Color(0xFF002A75).withValues(alpha: 0.9),
+                  Color(0xFF001F5C).withValues(alpha: 0.9),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
           ),
 
           // imagen de fondo
-          Positioned.fill(
-            child: Opacity(
-              opacity: 0.2,
-              child: Image.asset("assets/images/bg1.png", fit: BoxFit.cover),
+          Opacity(
+            opacity: 0.18,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              child: Image.asset(
+                backgrounds[currentQuestionIndex % backgrounds.length],
+                key: ValueKey(currentQuestionIndex),
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              ),
             ),
           ),
 
@@ -326,6 +356,7 @@ class _TriviaScreenState extends State<TriviaScreen> {
               ),
             ),
           ),
+          Positioned.fill(child: BackgroundOverlay(timeLeft: timeLeft)),
         ],
       ),
     );

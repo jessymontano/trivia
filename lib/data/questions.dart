@@ -20,4 +20,76 @@ final List<Question> questions = [
       Answer(text: "Jessica Montaño", isCorrect: true),
     ],
   ),
+  Question(
+    question: "¿Quien es el desarrollador mas papu de todo isi?",
+    answers: [
+      Answer(text: "papu1", isCorrect: false),
+      Answer(text: "papu2", isCorrect: false),
+      Answer(text: "papu3", isCorrect: false),
+      Answer(text: "Jessica Montaño", isCorrect: true),
+    ],
+  ),
+  Question(
+    question: "¿Quien es el desarrollador mas papu de todo isi?",
+    answers: [
+      Answer(text: "papu1", isCorrect: false),
+      Answer(text: "papu2", isCorrect: false),
+      Answer(text: "papu3", isCorrect: false),
+      Answer(text: "Jessica Montaño", isCorrect: true),
+    ],
+  ),
+  Question(
+    question: "¿Quien es el desarrollador mas papu de todo isi?",
+    answers: [
+      Answer(text: "papu1", isCorrect: false),
+      Answer(text: "papu2", isCorrect: false),
+      Answer(text: "papu3", isCorrect: false),
+      Answer(text: "Jessica Montaño", isCorrect: true),
+    ],
+  ),
+  Question(
+    question: "¿Quien es el desarrollador mas papu de todo isi?",
+    answers: [
+      Answer(text: "papu1", isCorrect: false),
+      Answer(text: "papu2", isCorrect: false),
+      Answer(text: "papu3", isCorrect: false),
+      Answer(text: "Jessica Montaño", isCorrect: true),
+    ],
+  ),
+  Question(
+    question: "¿Quien es el desarrollador mas papu de todo isi?",
+    answers: [
+      Answer(text: "papu1", isCorrect: false),
+      Answer(text: "papu2", isCorrect: false),
+      Answer(text: "papu3", isCorrect: false),
+      Answer(text: "Jessica Montaño", isCorrect: true),
+    ],
+  ),
+  Question(
+    question: "¿Quien es el desarrollador mas papu de todo isi?",
+    answers: [
+      Answer(text: "papu1", isCorrect: false),
+      Answer(text: "papu2", isCorrect: false),
+      Answer(text: "papu3", isCorrect: false),
+      Answer(text: "Jessica Montaño", isCorrect: true),
+    ],
+  ),
+  Question(
+    question: "¿Quien es el desarrollador mas papu de todo isi?",
+    answers: [
+      Answer(text: "papu1", isCorrect: false),
+      Answer(text: "papu2", isCorrect: false),
+      Answer(text: "papu3", isCorrect: false),
+      Answer(text: "Jessica Montaño", isCorrect: true),
+    ],
+  ),
+  Question(
+    question: "¿Quien es el desarrollador mas papu de todo isi?",
+    answers: [
+      Answer(text: "papu1", isCorrect: false),
+      Answer(text: "papu2", isCorrect: false),
+      Answer(text: "papu3", isCorrect: false),
+      Answer(text: "Jessica Montaño", isCorrect: true),
+    ],
+  ),
 ];
