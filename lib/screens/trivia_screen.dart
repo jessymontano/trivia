@@ -18,6 +18,7 @@ class TriviaScreen extends StatefulWidget {
 
 class _TriviaScreenState extends State<TriviaScreen> {
   bool hasAnswered = false;
+  bool showResults = false;
 
   // contadores de respuestas
   int wrongAnswersCount = 0;
@@ -58,8 +59,7 @@ class _TriviaScreenState extends State<TriviaScreen> {
   @override
   void initState() {
     super.initState();
-    selectedQuestions = questions;
-    loadQuestion();
+    _startTrivia();
     startTimer();
   }
 
@@ -98,13 +98,32 @@ class _TriviaScreenState extends State<TriviaScreen> {
     });
   }
 
+  void _startTrivia() {
+    // elegir 10 preguntas al azar
+    List<Question> allQuestions = List.from(questions);
+    allQuestions.shuffle();
+    selectedQuestions = allQuestions.take(10).toList();
+
+    currentQuestionIndex = 0;
+    loadQuestion();
+  }
+
   void loadQuestion() {
-    currentAnswers = selectedQuestions[currentQuestionIndex].answers;
+    Question currentQuestion = selectedQuestions[currentQuestionIndex];
+    currentAnswers = List.from(currentQuestion.answers);
+    currentAnswers.shuffle();
+
+    setState(() {
+      hasAnswered = false;
+      showResults = false;
+      selectedAnswerIndex = null;
+    });
   }
 
   void handleTimeout() {
     setState(() {
       hasAnswered = true;
+      showResults = true;
       wrongAnswersCount++;
     });
   }
@@ -272,11 +291,11 @@ class _TriviaScreenState extends State<TriviaScreen> {
                       itemCount: 4,
                       itemBuilder: (context, index) {
                         return AnswerButton(
-                          text: currentAnswers[index]
-                              .text, //TODO: agregar respuestas,
+                          text: currentAnswers[index].text,
                           baseColor: answerColors[index],
                           isCorrect: currentAnswers[index].isCorrect,
                           hasAnswered: hasAnswered,
+                          showResults: showResults,
                           isSelected: selectedAnswerIndex == index,
                           onTap: () {
                             if (hasAnswered) return;
@@ -291,6 +310,17 @@ class _TriviaScreenState extends State<TriviaScreen> {
                             });
 
                             _timer?.cancel();
+
+                            Future.delayed(
+                              const Duration(milliseconds: 500),
+                              () {
+                                if (mounted) {
+                                  setState(() {
+                                    showResults = true;
+                                  });
+                                }
+                              },
+                            );
                           },
                         );
                       },
@@ -299,8 +329,12 @@ class _TriviaScreenState extends State<TriviaScreen> {
                   const SizedBox(height: 100),
 
                   // botón siguiente
-                  if (hasAnswered)
-                    ElevatedButton(
+                  Visibility(
+                    visible: showResults,
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white.withOpacity(0.9),
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -352,6 +386,7 @@ class _TriviaScreenState extends State<TriviaScreen> {
                         ],
                       ),
                     ),
+                  ),
                 ],
               ),
             ),

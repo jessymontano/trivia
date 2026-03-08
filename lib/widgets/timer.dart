@@ -29,11 +29,29 @@ class TimerDisplay extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          CircularProgressIndicator(
-            value: progress,
-            strokeWidth: 8,
-            backgroundColor: Colors.grey.shade300,
-            valueColor: AlwaysStoppedAnimation<Color>(progressColor),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          TweenAnimationBuilder<double>(
+            tween: Tween<double>(begin: 1.0, end: progress),
+            duration: timeLeft == totalTime
+                ? Duration.zero
+                : const Duration(milliseconds: 1000),
+            curve: Curves.linear,
+            builder: (context, value, child) {
+              return CircularProgressIndicator(
+                value: value,
+                strokeWidth: 8,
+                backgroundColor: Colors.grey.shade300,
+                valueColor: AlwaysStoppedAnimation<Color>(progressColor),
+              );
+            },
           ),
           Center(
             child: Text(

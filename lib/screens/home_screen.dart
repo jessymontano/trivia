@@ -1,4 +1,3 @@
-// TODO: crear pantalla inicial
 import 'dart:math' as math;
 import 'dart:ui';
 import 'package:trivia/screens/trivia_screen.dart';
