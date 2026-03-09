@@ -10,7 +10,7 @@ Caracteristicas:
 - Sistema de puntuación automatica
 - Pantalla de resultados al finalizar la trivia
 - Fondos dinámicos que cambian en cada pregunta
-- Efectos visuales de alerta cuando el tiempo se está agootando
+- Efectos visuales de alerta cuando el tiempo se está agotando
 
 Tecnologias:
 
